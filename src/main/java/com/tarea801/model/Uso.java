@@ -1,14 +1,12 @@
 package com.tarea801.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Uso {
@@ -21,13 +19,20 @@ public class Uso {
     private LocalDate fechaFin;
     private double coste;
 
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @ManyToOne
+    @JoinColumn(name = "bicicleta_id")
     private Bicicleta bicicleta;
 
     @ManyToOne
-    private Estacion estacion;
+    @JoinColumn(name = "estacion_inicio_id")
+    private Estacion inicioEstacion;
+
+    @ManyToOne
+    @JoinColumn(name = "estacion_fin_id")
+    private Estacion finEstacion;
 
 }

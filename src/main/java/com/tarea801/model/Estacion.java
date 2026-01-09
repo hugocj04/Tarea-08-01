@@ -1,14 +1,16 @@
 package com.tarea801.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Estacion {
 
     @Id
@@ -20,9 +22,22 @@ public class Estacion {
     public String coordenadas;
     public int capacidad;
 
-    @OneToMany
-    private Bicicleta bicicleta;
+    @OneToMany(mappedBy = "estaEn")
+    @Builder.Default
+    private List<Bicicleta> bicicletas = new ArrayList<>();
 
     @OneToMany
     private Uso uso;
+
+    // Cuando una relacion sea bidireccional, hay que crear estos metodos en la clase OneToMany o en alguna de las dos ManyToMany
+
+    public void addBicicleta(Bicicleta bicicleta) {
+        bicicletas.add(bicicleta);
+        bicicleta.setEstaEn(this);
+    }
+
+    public void removeBicicleta(Bicicleta bicicleta) {
+        bicicletas.remove(bicicleta);
+        bicicleta.setEstaEn(null);
+    }
 }

@@ -1,13 +1,10 @@
 package com.tarea801.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.AnyDiscriminatorImplicitValues;
+import lombok.*;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bicicleta {
@@ -21,8 +18,10 @@ public class Bicicleta {
     private String estado;
 
     @ManyToOne
-    private Estacion estacion;
+    @JoinColumn(name = "estacion_id", foreignKey = @ForeignKey(name = "fk_bicicleta_estacion"))
+    private Estacion estaEn;
 
     @OneToMany
     private Uso uso;
+
 }
